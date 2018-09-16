@@ -47,11 +47,19 @@ public class ConsoleBasedForum extends Forum {
 //                    iesirea din program
                     getDb().exit();
                     return;
+                case 4:
+                    printAllUsersSorted();
+                    break;
                 default:
                     System.out.println("The option does not exist !!!");
                     break;
             }
         }
+    }
+
+    private void printAllUsersSorted()
+    {
+        System.out.println( getAllUsersSorted());
     }
 
     private void loginMenu() {
@@ -133,6 +141,7 @@ public class ConsoleBasedForum extends Forum {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
+        System.out.println("4. Exit");
         System.out.print(prompt);
         Integer optiune = sc.nextInt();
         sc.nextLine();

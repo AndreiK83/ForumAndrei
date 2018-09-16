@@ -9,15 +9,15 @@ import java.util.Objects;
 
 
 @Entity
-public class User {
+public class User implements Comparable<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 50, unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 50, unique = true)
     private String mail;
 
     public User(){
@@ -74,5 +74,11 @@ public class User {
 
     public Integer getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(User o) {
+        int usernameCompResult = this.username.compareTo(o.username);
+        return usernameCompResult;
     }
 }

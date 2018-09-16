@@ -1,4 +1,6 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -88,5 +90,18 @@ public class Forum implements ForumCapable {
 
     public HibernateHandler getDb() {
         return db;
+    }
+
+    public List<User> getAllUsersSorted()
+    {
+        List<Object> userListAsObj = db.getAll(User.class);
+        List<User> userList = new ArrayList<>();
+        for(Object obj:userListAsObj)
+        {
+            userList.add((User)obj);
+        }
+
+        Collections.sort(userList);
+        return userList;
     }
 }
