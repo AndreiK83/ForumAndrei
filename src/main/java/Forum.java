@@ -1,5 +1,6 @@
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -11,22 +12,22 @@ public class Forum implements ForumCapable {
     private User userLoggedIn = null;
     private Category currentCategory = null;
 
-    public Forum(String dbUrl, String userDb, String passDb) throws SQLException {
+    public Forum() {
 //        mySQLHandler = new MySQLHandler(dbUrl, userDb, passDb);
-        db = new HibernateHandler(dbUrl, userDb, passDb);
+        db = new HibernateHandler();
     }
 
     public boolean login(String username, String password) {
         boolean loginSuccesful = false;
 //        User user = mySQLHandler.getUserByUsername(username);
-//        User user = db.getAll(username);
-//        if (user != null && user.isThisPasswordMine(password)) {
-//            LOGGER.log(Level.INFO,username + " logged in succesfully");
-//            loginSuccesful = true;
-//            userLoggedIn = user;
-//        } else {
-//            LOGGER.log(Level.WARNING,"invalid login ! ! !");
-//        }
+        User user = db.getUserByUsername(username);
+        if (user != null && user.isThisPasswordMine(password)) {
+            LOGGER.log(Level.INFO,username + " logged in succesfully");
+            loginSuccesful = true;
+            userLoggedIn = user;
+        } else {
+            LOGGER.log(Level.WARNING,"invalid login ! ! !");
+        }
         return loginSuccesful;
     }
 
@@ -40,6 +41,12 @@ public class Forum implements ForumCapable {
 
     public void register(String username, String password, String mail) {
 //        mySQLHandler.insertUser(username, password, mail);
+        User user = new User(username,password,mail);
+        try {
+            db.insert(user);
+        } catch (Exception e){
+            System.out.println("Va rog sa utilizati un alt loghin, LOGHIN EXISTENT");
+        }
     }
 
     public void insertCategory(String subject) {
@@ -77,5 +84,9 @@ public class Forum implements ForumCapable {
 
     public void cleanupEntireDB() {
 //        mySQLHandler.cleanup();
+    }
+
+    public HibernateHandler getDb() {
+        return db;
     }
 }

@@ -1,9 +1,14 @@
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+@NamedQueries({
+        @NamedQuery(
+                name = "get_user_by_username",
+                query = "select p from User p where username = :username"
+        )
+})
 
+
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +20,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String mail;
 
+    public User(){
+
+    }
+
     public User(Integer id, String username, String password, String mail) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+        this.mail = mail;
+    }
+
+    public User( String username, String password, String mail) {
         this.username = username;
         this.password = password;
         this.mail = mail;

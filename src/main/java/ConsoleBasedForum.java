@@ -4,12 +4,11 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ConsoleBasedForum extends Forum {
-    private HibernateHandler db;
     private Scanner sc;
     private String prompt;
 
-    public ConsoleBasedForum(String dbUrl, String userDb, String passDb) throws SQLException {
-        super(dbUrl, userDb, passDb);
+    public ConsoleBasedForum() {
+        super();
         sc = new Scanner(System.in);
         prompt = ">";
         mainMenu();
@@ -45,6 +44,8 @@ public class ConsoleBasedForum extends Forum {
                     break;
                 case 3:
                     System.out.println("Have a nice day!");
+//                    iesirea din program
+                    getDb().exit();
                     return;
                 default:
                     System.out.println("The option does not exist !!!");

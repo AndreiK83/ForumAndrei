@@ -9,7 +9,7 @@ public class HibernateHandler {
     private static SessionFactory f;
     private static Session s;
 
-    public HibernateHandler(String dbUrl, String userDb, String passDb) {
+    public HibernateHandler() {
         conf = new Configuration().configure();
         f = conf.buildSessionFactory();
         s = f.openSession();
@@ -28,5 +28,9 @@ public class HibernateHandler {
     public void exit(){
         s.close();
         f.close();
+    }
+
+    public User getUserByUsername(String username){
+        return (User)s.getNamedQuery("get_user_by_username").setParameter("username", username).uniqueResult();
     }
 }
