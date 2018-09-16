@@ -1,8 +1,5 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -101,7 +98,25 @@ public class Forum implements ForumCapable {
             userList.add((User)obj);
         }
 
-        Collections.sort(userList);
+        //sorteaza userii in ordinea data de
+        //metoda compareTo din clasa User
+      //  Collections.sort(userList);
+
+        Collections.sort(userList, new Comparator<User>(){
+        @Override
+        public int compare(User o1, User o2) {
+            return o2.getUsername().compareTo(
+                    o1.getUsername());
+        }
+    });
+
+        Collections.sort(userList, new Comparator<User>(){
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getUsername().length()
+                        - o2.getUsername().length();
+            }
+        });
         return userList;
     }
 }
