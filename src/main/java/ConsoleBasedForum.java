@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ConsoleBasedForum extends Forum {
-
+    private HibernateHandler db;
     private Scanner sc;
     private String prompt;
 

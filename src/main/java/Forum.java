@@ -5,82 +5,77 @@ import java.util.logging.Level;
 
 public class Forum implements ForumCapable {
 
-    private static final Logger LOGGER = Logger.getLogger( Forum.class.getName() );
-
-    private MySQLHandler mySQLHandler;
+    private static final Logger LOGGER = Logger.getLogger(Forum.class.getName());
+    private HibernateHandler db;
+    //    private MySQLHandler mySQLHandler;
     private User userLoggedIn = null;
     private Category currentCategory = null;
 
     public Forum(String dbUrl, String userDb, String passDb) throws SQLException {
-        mySQLHandler = new MySQLHandler(dbUrl, userDb, passDb);
+//        mySQLHandler = new MySQLHandler(dbUrl, userDb, passDb);
+        db = new HibernateHandler(dbUrl, userDb, passDb);
     }
 
-    public boolean login(String username, String password)
-    {
+    public boolean login(String username, String password) {
         boolean loginSuccesful = false;
-        User user = mySQLHandler.getUserByUsername(username);
-
-        if (user != null && user.isThisPasswordMine(password)) {
-            LOGGER.log(Level.INFO,username + " logged in succesfully");
-            loginSuccesful = true;
-            userLoggedIn = user;
-        } else {
-            LOGGER.log(Level.WARNING,"invalid login ! ! !");
-        }
+//        User user = mySQLHandler.getUserByUsername(username);
+//        User user = db.getAll(username);
+//        if (user != null && user.isThisPasswordMine(password)) {
+//            LOGGER.log(Level.INFO,username + " logged in succesfully");
+//            loginSuccesful = true;
+//            userLoggedIn = user;
+//        } else {
+//            LOGGER.log(Level.WARNING,"invalid login ! ! !");
+//        }
         return loginSuccesful;
     }
 
-    public void logout()
-    {
+    public void logout() {
         userLoggedIn = null;
     }
 
-    public void exitCategory()
-    {
+    public void exitCategory() {
         currentCategory = null;
     }
 
     public void register(String username, String password, String mail) {
-        mySQLHandler.insertUser(username, password, mail);
+//        mySQLHandler.insertUser(username, password, mail);
     }
 
     public void insertCategory(String subject) {
-        LOGGER.log(Level.INFO,"Insert subject for the new category = ");
-        mySQLHandler.insertNewCategory(subject, userLoggedIn.getId());
+//        LOGGER.log(Level.INFO,"Insert subject for the new category = ");
+//        mySQLHandler.insertNewCategory(subject, userLoggedIn.getId());
     }
 
     public List<Category> getAllCategories() {
-        return mySQLHandler.getAllCategories();
+        return (List<Category>) db;  /*mySQLHandler.getAllCategories();*/
     }
 
     public boolean enterCategory(Integer categoryId) {
 
         boolean enterSuccesfully = false;
-        Category category = mySQLHandler.getCategoryById(categoryId);
-
-        if (category == null) {
-            LOGGER.log(Level.SEVERE,"Invalid category ! ! !");
-        }
-        else
-        {
-            currentCategory = category;
-            enterSuccesfully = true;
-        }
+//        Category category = mySQLHandler.getCategoryById(categoryId);
+//
+//        if (category == null) {
+//            LOGGER.log(Level.SEVERE,"Invalid category ! ! !");
+//        }
+//        else
+//        {
+//            currentCategory = category;
+//            enterSuccesfully = true;
+//        }
         return enterSuccesfully;
     }
 
-    public String whoIsLoggedIn()
-    {
+    public String whoIsLoggedIn() {
         return userLoggedIn != null ? userLoggedIn.getUsername() : "";
     }
 
-    public String whichCategory()
-    {
+    public String whichCategory() {
         return currentCategory != null ? currentCategory.getSubject() : "";
     }
 
-    public void cleanupEntireDB()
-    {
-        mySQLHandler.cleanup();
+    public void cleanupEntireDB() {
+//        mySQLHandler.cleanup();
     }
 }
